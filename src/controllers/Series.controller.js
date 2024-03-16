@@ -1,5 +1,9 @@
 import { BaseController } from "./BaseController.js"
 import { Serie } from "../models/Serie.model.js"
+import {
+  validateSeries,
+  validateSeriesUpdate,
+} from "../schemas/series.schema.js"
 
 export class SeriesController extends BaseController {
   getAll = async (req, res) => {
@@ -15,6 +19,7 @@ export class SeriesController extends BaseController {
 
   create = async (req, res) => {
     const serie = req.body
+    validateSeries(serie)
     const data = await Serie.create(serie)
     const insertData = await Serie.getById(data.insertId)
     return this.successResponse(res, insertData)
@@ -23,6 +28,7 @@ export class SeriesController extends BaseController {
   update = async (req, res) => {
     const id = req.params.id
     const serie = req.body
+    validateSeriesUpdate(serie)
     await Serie.update(id, serie)
     const affected = await Serie.getById(id)
     return this.successResponse(res, affected)
