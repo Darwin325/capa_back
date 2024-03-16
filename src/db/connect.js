@@ -13,9 +13,9 @@ export class Connection {
     return connection
   }
 
-  static async query(query) {
+  static async query(query, params = []) {
     const conn = await this.connect()
-    const results = await conn.query(query)
+    const results = await conn.query(query, params)
     return results
   }
 }
