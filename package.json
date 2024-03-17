@@ -9,6 +9,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "db": "node src/db/exec.db.js",
+    "php:install": "cd php_services && composer install",
     "php:up": "cd php_services && php -S localhost:9000"
   },
   "keywords": [],
