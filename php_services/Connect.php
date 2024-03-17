@@ -1,9 +1,5 @@
 <?php
-
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '123456');
-define('DB_DATABASE', 'cap_test');
+require_once 'config/db.php';
 
 class Connection
 {

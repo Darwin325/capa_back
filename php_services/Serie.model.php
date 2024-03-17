@@ -38,8 +38,8 @@ class Serie
     {
         $result = $this->connect->query(
             "
-            SELECT * FROM tv_series ts
-            INNER JOIN tv_series_intervals tsi ON ts.id = tsi.tv_series_id
+            SELECT * FROM tv_series_intervals tsi 
+            INNER JOIN tv_series ts ON ts.id = tsi.tv_series_id
             WHERE tsi.week_day = LOWER('$day')
             ORDER BY tsi.show_time ASC
             LIMIT 1
@@ -52,8 +52,8 @@ class Serie
     {
         $result = $this->connect->query(
             "
-            SELECT * FROM tv_series ts
-            INNER JOIN tv_series_intervals tsi ON ts.id = tsi.tv_series_id
+            SELECT * FROM tv_series_intervals tsi 
+            INNER JOIN tv_series ts ON ts.id = tsi.tv_series_id
             WHERE ts.id NOT IN ($distinctId)
             ORDER BY RAND()
             LIMIT 3
