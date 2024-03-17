@@ -1,7 +1,9 @@
 import { Connection as db } from "../db/connect.js"
 export class Serie {
   static async getAll() {
-    const [results] = await db.query("SELECT * FROM tv_series")
+    const [results] = await db.query(
+      "SELECT * FROM tv_series ts INNER JOIN tv_series_intervals tsi ON ts.id = tsi.tv_series_id"
+    )
     return results
   }
 

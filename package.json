@@ -6,14 +6,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "db": "node src/db/exec.db.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "db": "node src/db/exec.db.js",
+    "php:up": "cd php_services && php -S localhost:9000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.3",
     "mysql2": "^3.9.2",
     "zod": "^3.22.4"
