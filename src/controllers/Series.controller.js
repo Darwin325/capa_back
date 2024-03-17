@@ -7,7 +7,8 @@ import {
 
 export class SeriesController extends BaseController {
   getAll = async (req, res) => {
-    const data = await Serie.getAll()
+    const { search } = req.query
+    const data = await Serie.getAll({ search })
     return this.successResponse(res, data)
   }
 
@@ -21,6 +22,10 @@ export class SeriesController extends BaseController {
     const serie = req.body
     validateSeries(serie)
     const data = await Serie.create(serie)
+    await Serie.attachSerieInterval({
+      tv_series_id: data.insertId,
+      ...req.body,
+    })
     const insertData = await Serie.getById(data.insertId)
     return this.successResponse(res, insertData)
   }

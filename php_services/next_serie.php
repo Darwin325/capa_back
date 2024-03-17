@@ -1,39 +1,36 @@
 <?php
 
-use function Symfony\Component\Clock\now;
-
 require_once 'Connect.php';
+require_once 'helpers.php';
+require_once 'Serie.model.php';
 
 class NextSerie
 {
-    private $connect;
+    private $serieModel;
     public function __construct()
     {
-        $this->connect = new Connection();
+        $this->serieModel = new Serie();
     }
 
     public function nextSerieToEmit()
     {
-        $carbon = new Carbon\Carbon();
-        $now = $carbon::now();
-        $nameOfDay = strtolower($now->format('l'));
+        $series = $this->serieModel->nextSerieToEmit();
+        echo json($series);
+    }
 
-        $series = [];
-        while (empty($series)) {
-            $result = $this->connect->query(
-                "
-                SELECT * FROM tv_series ts
-                INNER JOIN tv_series_intervals tsi ON ts.id = tsi.tv_series_id
-                WHERE tsi.week_day = LOWER('$nameOfDay')
-                ORDER BY tsi.show_time ASC
-                LIMIT 1
-                "
-            );
-            $series = $result->fetchAll(PDO::FETCH_ASSOC);
-            $nextDay = $now->addDay();
-            $nameOfDay = strtolower($nextDay->format('l'));
-        }
+    public function nextSerieToEmitByDay($day)
+    {
+        $series = $this->serieModel->nextSerieToEmitByDay($day);
+        echo json($series);
+    }
 
-        echo json_encode($series);
+    public function nexThreeSuggestedSeries()
+    {
+        $nextEmit = $this->serieModel->nextSerieToEmit();
+        $distinctId = array_map(function ($serie) {
+            return $serie['id'];
+        }, $nextEmit);
+        $series = $this->serieModel->nexThreeSuggestedSeries((int)$distinctId);
+        echo json($series);
     }
 }

@@ -1,11 +1,21 @@
 <?php
+
+// namespace App;
+
 require_once 'next_serie.php';
 
-$router = new AltoRouter();
-$nextSerie = new NextSerie();
+require_once 'libs/main-main/router.php';
 
-$router->map('GET', '/', function () {
-    echo 'Hello world no puedo hacer nada';
+$nextSerie = new \NextSerie();
+
+get('/test', function () {
+    echo 'Awesome!';
 });
 
-$router->map('GET', '/next-serie', $nextSerie->nextSerieToEmit());
+get('/api/next-serie', function () use ($nextSerie) {
+    $nextSerie->nextSerieToEmit();
+});
+
+get('/api/suggested-series', function () use ($nextSerie) {
+    $nextSerie->nexThreeSuggestedSeries();
+});

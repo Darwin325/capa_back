@@ -1,9 +1,11 @@
 import { Connection as db } from "../db/connect.js"
 export class Serie {
-  static async getAll() {
-    const [results] = await db.query(
-      "SELECT * FROM tv_series ts INNER JOIN tv_series_intervals tsi ON ts.id = tsi.tv_series_id"
-    )
+  static async getAll({ search }) {
+    let sql = `SELECT * FROM tv_series_intervals tsi INNER JOIN tv_series ts ON ts.id = tsi.tv_series_id`
+    if (search && search.length > 2) {
+      sql += ` WHERE title LIKE ?`
+    }
+    const [results] = await db.query(sql, [`%${search}%`])
     return results
   }
 
@@ -45,7 +47,20 @@ export class Serie {
   }
 
   static async delete(id) {
+    await db.query(`DELETE FROM tv_series_intervals WHERE tv_series_id = ?`, [
+      id,
+    ])
     const [result] = await db.query(`DELETE FROM tv_series WHERE id = ?`, [id])
+    console.log(result)
     return result.affectedRows
+  }
+
+  static async attachSerieInterval(data) {
+    const { tv_series_id, week_day, show_time } = data
+    const [result] = await db.query(
+      `INSERT INTO tv_series_intervals (tv_series_id, week_day, show_time) VALUES (?, ?, ?)`,
+      [tv_series_id, week_day, show_time]
+    )
+    return result
   }
 }

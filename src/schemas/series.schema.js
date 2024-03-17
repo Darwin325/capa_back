@@ -5,6 +5,8 @@ export const SeriesSchema = z.object({
   title: z.string().min(3).max(255),
   channel: z.string().min(3).max(255),
   gender: z.string().min(3).max(255),
+  week_day: z.string().min(3).max(255),
+  show_time: z.string().min(3).max(20),
 })
 
 export const validateSeries = (data) => {
