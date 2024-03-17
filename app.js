@@ -1,3 +1,4 @@
+import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import { seriesRouter } from "./src/routes/series.routes.js"

@@ -1,10 +1,11 @@
 import mysql from "mysql2/promise"
+import "dotenv/config"
 
 const credentials = {
-  host: "localhost",
-  user: "root",
-  password: "123456",
-  database: "cap_test",
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.USER || "root",
+  password: process.env.PASSWORD || "123456",
+  database: process.env.DATABASE || "default",
 }
 
 export class Connection {
